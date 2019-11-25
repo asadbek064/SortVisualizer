@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sortwiz</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
+    <link rel="stylesheet" href="assets/css/Navigation-Menu.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src='assets/js/sorting.js'></script>   
+</head>
+
+
+<body>
+    <div>
+        <nav class="navbar navbar-light navbar-expand-md navigation-clean">
+            <div class="container"><a class="navbar-brand" href="#" style="background-color:rgb(255,255,255);">SortWiz</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                
+    </div>
+    </nav>
+    </div>
+    <div class='container-fluid'>
+        <div class='row'>
+          <div class='col-xs-3'>
+            <div class='form-group'>
+              <label for='#array-size'>Array Size</label>
+              <input id='array-size' class='form-control' type='number' value="50"/>
+            </div>
+
+            <div class='form-group'>
+              <label for='#algo-select'>Algorithm</label>
+              <select class='form-control' id='algo-select'>
+                <option value='bubblesort'>Bubble sort</option>
+                <option value='selectionsort'>Selection sort</option>
+                <option value='insertionsort'>Insertion sort</option>
+                <option value='odd_even_sort'>Odd-even sort</option>
+                <option value='cocktail_sort'>Cocktail sort</option>
+                <option value='quicksort'>Quicksort</option>
+                <option value='heapsort'>Heapsort</option>
+                <option value='mergesort'>Merge sort</option>
+                <option value='bitonic_mergesort'>Bitonic mergesort</option>
+                <option value='introsort'>Introsort</option>
+              </select>
+            </div>
+            <div class='form-group'>
+              <label for='#init-select'>Initial array</label>
+              <select class='form-control' id='init-select'>
+                <option value='random'>Random</option>
+                <option value='sorted'>Sorted</option>
+                <option value='reversed'>Reversed</option>
+              </select>
+            </div>
+            <div class='form-group'>
+              <label for='#interval'>Interval (ms)</label>
+              <input id='interval' class='form-control' type='number' value="20"/>
+            </div>
+            <p class='text-muted'>
+              Comparisons are <span class='compare'>blue</span>,
+              <br>
+              swaps are <span class='swap'>red</span>.
+            </p>
+            <div class='text-center'>
+              <button class='btn btn-lg btn-primary' id='start-btn'>Start</button>
+            </div>
+          </div>
+          <div class='col-xs-9' id='canvas-div'>
+            <canvas width="800px" height="600px" id="main-canvas">
+          </div>
+        </div>
+      </div>
+    
+    <div class="footer-basic" style="height:20pt;">
+        <footer>
+            <div class="social"></div>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#" style="background-color:rgb(255,255,255);">GitHub</a></li>
+                <li class="list-inline-item"><a href="#">LinkedIn</a></li>
+                <li class="list-inline-item"><a href="#">About</a></li>
+            </ul>
+            <p class="copyright" style="font-size:11px;">Asadbek Karimov</p>
+        </footer>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+   
+
+    <script>
+        $(function() {
+         var aa = null;
+         // Make the canvas fit the available space
+         var resize_canvas = function() {
+           $('#main-canvas').width($('#canvas-div').width());
+         }
+         resize_canvas();
+         $(window).resize(resize_canvas);
+         
+         $('#start-btn').click(function() {
+           if (aa !== null) aa.cancel();
+           var n = parseInt($('#array-size').val());
+           var interval = parseInt($('#interval').val());
+           var algo = $('#algo-select').val();
+           var pivot_type = $('#pivot-select').val();
+           var sort_fn = sorting.get_sort_fn(algo, pivot_type);
+           if (algo === 'bitonic_mergesort') {
+             // Round up to the nearest power of 2
+             var n2 = 1;
+             while (n2 < n) n2 *= 2;
+             $('#array-size').val(n2);
+             n = n2;
+           }
+           var ary = [];
+           for (var i = 0; i < n; i++) {
+             ary.push(Math.random() - 0.5);
+           }
+           var init = $('#init-select').val();
+           if (init === 'sorted') {
+             ary.sort(function(a, b) { return a - b; });
+           } else if (init === 'reversed') {
+             ary.sort(function(a, b) {return b - a; });
+           }
+           var canvas = document.getElementById('main-canvas');
+           aa = new sorting.AnimatedArray(ary, canvas, interval);
+           sort_fn(aa);
+         });
+       });   
+ </script>
+</body>
+
+</html>
