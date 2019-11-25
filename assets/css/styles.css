@@ -1,0 +1,76 @@
+html{
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+html::-webkit-scrollbar { 
+    display: none; 
+} 
+.element::-webkit-scrollbar { width: 0 !important }
+.slideContainer {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .slider {
+    -webkit-appearance: none;
+    width: 50%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+  
+  .slider:hover {
+    opacity: 1;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: black;  
+    cursor: pointer;
+  }
+
+.StartVisbutton {
+    
+    position:absolute;
+    left: 70%;
+}
+.startButton {
+    background:    #0b5394;
+    background:    linear-gradient(#0b5394, #073763);
+    border-radius: 5px;
+    padding:       8px 20px;
+    color:         #ffffff;
+    display:       inline-block;
+    font:          normal bold 25px/1 "Ubuntu", sans-serif;
+    text-align:    center;
+}
+.startButton:hover{
+    cursor: pointer;
+}
+
+.jscontainer{
+    position: inherit;
+    padding: 10pt;
+    margin: 5pt;
+    background-color: red;
+    
+}
+canvas {
+    display: inline;
+ }
+#main-canvas {
+    padding:5pt;
+    
+   
+    width: 100%;
+    text-align:center;
+    background-color: white;
+}
+
