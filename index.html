@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="assets/css/Footer-Basic.css">
     <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
     <link rel="stylesheet" href="assets/css/Navigation-Menu.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <script src='assets/js/sorting.js'></script>   
+    <link rel="stylesheet" href="assets/css/styles.css"> 
+
 </head>
 
 
@@ -35,14 +35,12 @@
               <select class='form-control' id='algo-select'>
                 <option value='bubblesort'>Bubble sort</option>
                 <option value='selectionsort'>Selection sort</option>
-                <option value='insertionsort'>Insertion sort</option>
+                <option value='insertionsyort'>Insertion sort</option>
                 <option value='odd_even_sort'>Odd-even sort</option>
                 <option value='cocktail_sort'>Cocktail sort</option>
-                <option value='quicksort'>Quicksort</option>
                 <option value='heapsort'>Heapsort</option>
                 <option value='mergesort'>Merge sort</option>
                 <option value='bitonic_mergesort'>Bitonic mergesort</option>
-                <option value='introsort'>Introsort</option>
               </select>
             </div>
             <div class='form-group'>
@@ -58,17 +56,67 @@
               <input id='interval' class='form-control' type='number' value="20"/>
             </div>
             <p class='text-muted'>
-              Comparisons are <span class='compare'>blue</span>,
+              Comparisons are <span class='compare'>yellow</span>,
               <br>
               swaps are <span class='swap'>red</span>.
             </p>
             <div class='text-center'>
-              <button class='btn btn-lg btn-primary' id='start-btn'>Start</button>
+              <button class='btn-primary' id='start-btn'>Start</button>
             </div>
           </div>
-          <div class='col-xs-9' id='canvas-div'>
-            <canvas width="800px" height="600px" id="main-canvas">
+            <div class='col-xs-9' id='canvas-div_1'>
+                <canvas width="400px" height="250px" id="main-canvas"></canvas>
+            </div>
+
+            <!-- selector # 2  ----------------------------------------------- --------------  -->
+            <div class='col-xs-3'>
+            <div class='form-group'>
+              <label for='#array-size2'>Array Size</label>
+              <input id='array-size2' class='form-control' type='number' value="50"/>
+            </div>
+
+            <div class='form-group'>
+              <label for='#algo-select2'>Algorithm</label>
+              <select class='form-control' id='algo-select2'>
+                <option value='bubblesort'>Bubble sort</option>
+                <option value='selectionsort'>Selection sort</option>
+                <option value='insertionsyort'>Insertion sort</option>
+                <option value='odd_even_sort'>Odd-even sort</option>
+                <option value='cocktail_sort'>Cocktail sort</option>
+                <option value='heapsort'>Heapsort</option>
+                <option value='mergesort'>Merge sort</option>
+                <option value='bitonic_mergesort'>Bitonic mergesort</option>
+              </select>
+            </div>
+            <div class='form-group'>
+              <label for='#init-select2'>Initial array</label>
+              <select class='form-control' id='init-select2'>
+                <option value='random2'>Random</option>
+                <option value='sorted2'>Sorted</option>
+                <option value='reversed2'>Reversed</option>
+              </select>
+            </div>
+            <div class='form-group'>
+              <label for='#interval2'>Interval (ms)</label>
+              <input id='interval2' class='form-control' type='number' value="20"/>
+            </div>
+            <p class='text-muted'>
+              Comparisons are <span class='compare2'>yellow</span>,
+              <br>
+              swaps are <span class='swap'>red</span>.
+            </p>
+      
           </div>
+          <div class="col-xs-4" id='vs'>
+              <h2>VS</h2>
+            </div>
+
+            <div class = 'col-xs-5' id='canvas-div_2'>
+            
+              <canvas width="400px" height="250px" id="main-canvas2"></canvas>
+            </div>  
+
+            </div>
         </div>
       </div>
     
@@ -85,25 +133,34 @@
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src='assets/js/sorting01.js'></script>
+
    
 
     <script>
-        $(function() {
+
+
+
+$(function firstCanvas() {
          var aa = null;
          // Make the canvas fit the available space
          var resize_canvas = function() {
-           $('#main-canvas').width($('#canvas-div').width());
+           $('#main-canvas').width($('#canvas-div_1').width());
+            canvas = document.getElementById('main-canvas');
+            canvas.width  = window.innerWidth;
+            canvas.height = window.innerHeight;
          }
          resize_canvas();
          $(window).resize(resize_canvas);
+
          
-         $('#start-btn').click(function() {
+         $('#start-btn').click( function() {
+
            if (aa !== null) aa.cancel();
            var n = parseInt($('#array-size').val());
            var interval = parseInt($('#interval').val());
            var algo = $('#algo-select').val();
-           var pivot_type = $('#pivot-select').val();
-           var sort_fn = sorting.get_sort_fn(algo, pivot_type);
+           var sort_fn = sorting.get_sort_fn(algo);
            if (algo === 'bitonic_mergesort') {
              // Round up to the nearest power of 2
              var n2 = 1;
@@ -123,10 +180,56 @@
            }
            var canvas = document.getElementById('main-canvas');
            aa = new sorting.AnimatedArray(ary, canvas, interval);
-           sort_fn(aa);
-         });
-       });   
- </script>
-</body>
+           sort_fn(aa); 
+          });
+       }); 
+  
+$(function secoundCanvas(){
+  var aa = null;
+         // Make the canvas fit the available space
+         var resize_canvas = function() {
+           $('#main-canvas2').width($('#canvas-div_2').width());
+            canvas = document.getElementById('main-canvas2');
+            canvas.width  = window.innerWidth;
+            canvas.height = window.innerHeight;
+         }
+         resize_canvas();
+         $(window).resize(resize_canvas);
+
+         
+         $('#start-btn').click( function() {
+
+           if (aa !== null) aa.cancel();
+           var n = parseInt($('#array-size2').val());
+           var interval = parseInt($('#interval2').val());
+           var algo = $('#algo-select2').val();
+           var sort_fn = sorting.get_sort_fn(algo);
+           if (algo === 'bitonic_mergesort') {
+             // Round up to the nearest power of 2
+             var n2 = 1;
+             while (n2 < n) n2 *= 2;
+             $('#array-size2').val(n2);
+             n = n2;
+           }
+           var ary = [];
+           for (var i = 0; i < n; i++) {
+             ary.push(Math.random() - 0.5);
+           }
+           var init = $('#init-select2').val();
+           if (init === 'sorted2') {
+             ary.sort(function(a, b) { return a - b; });
+           } else if (init === 'reversed2') {
+             ary.sort(function(a, b) {return b - a; });
+           }
+           var canvas = document.getElementById('main-canvas2');
+           aa = new sorting.AnimatedArray(ary, canvas, interval);
+           sort_fn(aa); 
+          });
+
+});
+
+</script>
+
+ </body>
 
 </html>
